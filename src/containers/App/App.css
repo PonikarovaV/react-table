@@ -57,6 +57,11 @@
   color: #282c34;
 }
 
+.button_theme_dark {
+  background-color: #282c34;
+  color: #fff;
+}
+
 .button:hover {
   cursor: pointer;
   color: #61dafb;
@@ -66,9 +71,4 @@
 .button:active {
   color: #282c34;
   box-shadow: 0 0 0 rgba(255, 255, 255, 0.856);
-}
- 
-.button__icon {
-  margin-right: 10px;
-  font-size: 20px;
 }

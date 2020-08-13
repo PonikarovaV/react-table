@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { db } from '../../db/db';
+import db from '../../db';
 
-import { TASK_STATUS } from '../../constants/constants';
+import { TASK_STATUS } from '../../constants';
 
 import './Table.css';
 
@@ -10,8 +10,8 @@ import './Table.css';
 export const Table = (props) => {
     const { data, setTaskList } = props;
 
-    const handleEditStatus = React.useCallback(() => {
-        alert('В текущей версии функция редактирования статуса недоступна. Простите 😔');
+    const handleEditStatus = React.useCallback((id) => {
+        alert('В процессе реализации.');
     }, []);
 
     const handleDeleteTask = React.useCallback((id) => {
@@ -46,11 +46,12 @@ export const Table = (props) => {
                     >
                         <td className="table__cell">{row.id}</td>
                         <td className="table__cell">{row.description}</td>
-                        <td className="table__cell">{TASK_STATUS[row.status]}</td>
+                        <td className="table__cell">{TASK_STATUS[row.status]}
+                        </td>
                         <td className="table__cell">
                             <button 
                                 className="table__button"
-                                onClick={handleEditStatus}
+                                onClick={() => handleEditStatus(row.id)}
                             >
                                 <span className="table__image" role="img" aria-label="Редактировать статус">📝</span>
                             </button>

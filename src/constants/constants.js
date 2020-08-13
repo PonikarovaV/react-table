@@ -9,3 +9,5 @@ export const VALIDATION_ERRORS = {
     descriptionInputError: 'Описание задачи может включать a-zA-Zа-яА-Я0-9 от 5 до 50 символов.',
     statusInputError: 'Необходимо выбрать статус задачи',
 }
+
+export const DESCRIPTION_REGEXP = /^[a-zа-яё0-9\s]{5,50}$/i;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TASK_STATUS } from '../../constants/constants';
+import { TASK_STATUS } from '../../constants';
 
 import './DropdownList.css';
 
@@ -20,7 +20,7 @@ export const DropdownList = (props) => {
                 return (
                     <li
                         key={index}
-                        className="dropdown-item" 
+                        className="dropdown-item"
                         onClick={statusValueHandler}
                     >
                         {taskStatus}

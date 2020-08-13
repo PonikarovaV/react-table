@@ -116,3 +116,46 @@
 .form__error_visible {
     opacity: 1;
 }
+
+.form__button {
+    box-sizing: border-box;
+    padding: 15px;
+  
+    margin: 20px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    background-color: #fff;
+  
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.856);
+  
+    border: none;
+    border-radius: 8px;
+  
+    font-size: 16px;
+    line-height: 1;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #282c34;
+  }
+  
+  .form__button_disabled {
+    opacity: 0.6;
+  }
+  
+  .form__button_active {
+    opacity: 1;
+  }
+
+  .form__button_active:hover {
+    cursor: pointer;
+    color: #61dafb;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.856);
+  }
+  
+  .form__button_active:active {
+    color: #282c34;
+    box-shadow: 0 0 0 rgba(255, 255, 255, 0.856);
+  }

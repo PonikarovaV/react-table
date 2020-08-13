@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { db } from '../../db/db';
-import { Table } from '../../components/Table/Table';
-import { AddRowForm } from '../../components/AddRowForm/AddRowForm';
+import db from '../../db';
+import Table from '../../components/Table';
+import AddRowForm from '../../components/AddRowForm';
 
 import './App.css';
 

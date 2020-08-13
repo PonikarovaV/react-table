@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { db } from '../../db/db';
+import db from '../../db';
 
-import { TASK_STATUS, VALIDATION_ERRORS } from '../../constants/constants';
+import { TASK_STATUS, VALIDATION_ERRORS, DESCRIPTION_REGEXP } from '../../constants';
 
-import { DropdownList } from '../DropdownList/DropdownList';
+import DropdownList from '../DropdownList';
 
 import './AddRowForm.css';
 
@@ -12,33 +12,28 @@ import './AddRowForm.css';
 export const AddRowForm = (props) => {
     const { clickHandler, setTaskList } = props;
 
+    const formInitialState = {
+        description: false,
+        status: false,
+    };
+
     const [dropdownState, setDropdownState] = React.useState(false);
     const [taskStatus, setTaskStatus] = React.useState('');
     const [taskDescription, setTaskDescription] = React.useState('');
+    const [formValidationState, setFormValidationState] = React.useState(formInitialState);
 
-    const taskDescriptionErrorField = React.useRef(null);
-    const taskStatusErrorField = React.useRef(null);
+    const [descriptionWasChanged, setDescriptionWasChanged] = React.useState(false);
+    const [statusWasChanged, setStatusWasChanged] = React.useState(false);
 
-
-    const setError = React.useCallback((errorField, errorStatus) => {
-        if (!errorStatus) {
-            errorField.classList.remove('form__error_hidden');
-            errorField.classList.add('form__error_visible');
-        } else {
-            errorField.classList.add('form__error_hidden');
-            errorField.classList.remove('form__error_visible');
-        }
-    }, []);
 
     const isTaskDescriptionValid = React.useCallback((value) => {
-        const regexp = /^[a-zа-яё0-9\s]{5,50}$/i;
+        const isDescriptionValid = DESCRIPTION_REGEXP.test(value);
 
-        const errorField = taskDescriptionErrorField.current;
-
-        const isDescriptionValid = regexp.test(value);
-
-        setError(errorField, isDescriptionValid);
-    }, [setError]);
+        setFormValidationState((prevState) => ({
+            ...prevState,
+            description: isDescriptionValid,
+        }));
+    }, []);
 
     const taskDescriptionChangeHandler = React.useCallback((event) => {
         const taskDescription = event.target.value;
@@ -46,6 +41,8 @@ export const AddRowForm = (props) => {
         isTaskDescriptionValid(taskDescription);
 
         setTaskDescription(taskDescription);
+
+        setDescriptionWasChanged(true);
     }, [isTaskDescriptionValid]);
 
     const addTask = React.useCallback((event) => {
@@ -54,7 +51,6 @@ export const AddRowForm = (props) => {
         const statusCode = Object.keys(TASK_STATUS).find((key) => TASK_STATUS[key] === taskStatus);
 
         const data = {
-            id: Date.now(),
             description: taskDescription,
             status: statusCode,
         }
@@ -69,6 +65,31 @@ export const AddRowForm = (props) => {
                 clickHandler();
             });
     }, [taskDescription, taskStatus, setTaskList, clickHandler]);
+
+    const descriptionFieldIsValid = React.useMemo(() => {
+        if (!descriptionWasChanged) {
+            return 'form__error form__error_hidden';
+        }
+        
+        return `form__error ${formValidationState.description ? 'form__error_hidden' : 'form__error_visible'}`;
+    }, [descriptionWasChanged, formValidationState.description]);
+
+    const statusFieldIsValid = React.useMemo(() => {
+        if (!statusWasChanged) {
+            return 'form__error form__error_hidden';
+        }
+
+        setFormValidationState((prevState) => ({
+            ...prevState,
+            status: !!taskStatus,
+        }));
+
+        return `form__error ${formValidationState.status ? 'form__error_hidden' : 'form__error_visible'}`;
+    }, [formValidationState.status, statusWasChanged, taskStatus]);
+
+    const hasInvalidInput = React.useMemo(() => {
+        return Object.values(formValidationState).some((status) => !status);
+    }, [formValidationState]);
 
 
     return (
@@ -85,10 +106,9 @@ export const AddRowForm = (props) => {
                             value={taskDescription}
                             onChange={taskDescriptionChangeHandler}
                             required />
-                        <span 
-                            className="form__error form__error_hidden" 
+                        <span
+                            className={descriptionFieldIsValid}
                             id="error-add-task"
-                            ref={taskDescriptionErrorField}
                         >
                             {VALIDATION_ERRORS.descriptionInputError}
                         </span>
@@ -101,12 +121,15 @@ export const AddRowForm = (props) => {
                             type="text"
                             value={taskStatus}
                             onFocus={() => setDropdownState(true)}
-                            onChange={() => null}
+                            onChange={() => {
+                                setStatusWasChanged(true);
+
+                                return null;
+                            }}
                             required />
-                        <span 
-                            className="form__error form__error_hidden" 
+                        <span
+                            className={statusFieldIsValid}
                             id="error-add-task-status"
-                            ref={taskStatusErrorField}
                         >
                             {VALIDATION_ERRORS.statusInputError}
                         </span>
@@ -119,8 +142,16 @@ export const AddRowForm = (props) => {
                         )}
                     </div>
                 </fieldset>
-                <button className="button" onClick={addTask}>Add headache</button>
+                <button 
+                    className={`form__button ${hasInvalidInput ? 'form__button_disabled' : 'form__button_active'}`} 
+                    onClick={addTask} 
+                    disabled={hasInvalidInput}
+                >
+                    Add headache
+                </button>
             </form>
+
+            <button className="button button_theme_dark" onClick={clickHandler}>Cancel headache</button>
         </div>
     );
 }
