@@ -1,0 +1,74 @@
+@keyframes headache-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.headache {
+  pointer-events: none;
+}
+
+.headache__image {
+  font-size: 100px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .headache {
+    animation: headache-spin infinite 5s ease-in-out;
+  }
+}
+
+.body {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  text-align: center;
+  color: white;
+}
+
+.button {
+  box-sizing: border-box;
+  padding: 15px;
+
+  margin: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background-color: #fff;
+
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.856);
+
+  border: none;
+  border-radius: 8px;
+
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #282c34;
+}
+
+.button:hover {
+  cursor: pointer;
+  color: #61dafb;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.856);
+}
+
+.button:active {
+  color: #282c34;
+  box-shadow: 0 0 0 rgba(255, 255, 255, 0.856);
+}
+ 
+.button__icon {
+  margin-right: 10px;
+  font-size: 20px;
+}

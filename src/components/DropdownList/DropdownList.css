@@ -1,0 +1,35 @@
+.dropdown-list {
+    z-index: 100;
+    position: absolute;
+    top: 80px;
+
+    width: calc(100% - 20px);
+    padding-left: 0;
+
+    border-radius: 8px;
+
+    list-style: none;
+
+    background-color: #fff;
+    box-shadow: 0 5px 20px #282c3477;
+
+    color: #282c34;
+}
+
+.dropdown-item {
+    box-sizing: border-box;
+    padding: 10px;
+
+    border: 2px solid #fff;
+    border-radius: 8px;
+
+    text-align: start;
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 600;
+}
+
+.dropdown-item:hover {
+    cursor: pointer;
+    border: 2px solid #61dafb;
+}
